@@ -1,0 +1,50 @@
+.monitoring-main a{
+	text-decoration: none;
+	color: #393939;
+}
+
+.monitoring-main strong{
+	font-size: 16pt;
+}
+
+.monitoring-main .option-box{
+	width: 180px;
+	height: 180px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #C1C1C1FF;
+	border-radius: 20%;
+
+	color: #4F4F4FFF;
+}
+
+.monitoring-border-top {
+	border-top: 2px solid #3195CD;
+}
+
+.monitoring-head-text{
+	font-size: 14pt;
+}
+
+.monitoring-border-bottom{
+	border-bottom: 2px solid #3195CD;
+	padding-right: 10px;
+}
+
+.monitoring-table thead th{
+	padding-top: 1px;
+	padding-bottom: 1px;
+	background: rgba(68, 102, 187, .05);
+	border-bottom: 2px solid #3195CD;
+}
+
+.datos_generales_p {
+	font-weight: bold;
+}
+
+.datos_generales_p label{
+	margin-bottom: 0;
+	font-style: italic;
+	font-weight: normal;
+}
