@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Hash;
 use App\Models\Bitacora;
+use App\User;
 use Carbon\Carbon;
 
 class BitacoraController extends Controller
@@ -36,10 +37,12 @@ class BitacoraController extends Controller
     public function validar_hash(Request $request){
     	$input = $request->all();
 
-    	if($input['intentos'] <= 5){
-	    	$hash = Hash::where('hash', sha1($input['key']))->get();
+        $user = User::where('id_huella', $input['key'])->get();
 
-	    	$total = $hash->count();
+    	if($input['intentos'] <= 5){
+	    	//$hash = Hash::where('hash', sha1($input['key']))->get();
+
+	    	$total = $user->count();
 
 	    	if($total == 0){
 	    		return response()->json(array('mensaje' => 'Palabra clave no aceptada', 'estado' => 0));
@@ -48,7 +51,7 @@ class BitacoraController extends Controller
 
     	$registro_nuevo = new Bitacora;
 
-    	$registro_nuevo->usuario = null;
+    	$registro_nuevo->usuario = $user[0]->id;
     	$registro_nuevo->proceso = 'Inicio de Sesión';
     	$registro_nuevo->intentos = $input['intentos'];
     	$registro_nuevo->estado = ($input['intentos'] <= 5) ? 'Sesión Permitida' : 'Sesión Bloqueada';
