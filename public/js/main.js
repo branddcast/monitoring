@@ -155,7 +155,9 @@ function make_fingerPrint(){
 	var key = prompt("Escriba el Id de la huella. Restan [" + (5-intentos_cont) + '] intentos: ');
 	console.log(key);
 
-	if(key == null){
+	if(key <= 0){
+		alert('Ingrese un Id correcto.');
+		intentos_cont += 1;
 		return false;
 	}
 
@@ -207,8 +209,6 @@ function save_user(){
 		return false;
 	}
 
-	//Validar si existe el correo elctronico en la BD
-
 	$.ajax({
 		url: base_url + "/usuarios/agregar_usuario",
 		type: 'post',
@@ -221,16 +221,16 @@ function save_user(){
 		success: function(data){
 			if(data.status == 1){
 				alert(data.mensaje + '\n\n');
+
+				$('#user_name').val('');
+				$('#user_email').val('');
+				$('#user_password').val('');
+				$('#user_password_confirmed').val('');
+
+				$('#add_user').modal('hide');
 			}else{
 				alert(data.mensaje + '\n\n');
 			}
-
-			$('#user_name').val('');
-			$('#user_email').val('');
-			$('#user_password').val('');
-			$('#user_password_confirmed').val('');
-
-			$('#add_user').hide();
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest);
@@ -265,3 +265,4 @@ function validate_form(validate){
 
 	return true;
 }
+

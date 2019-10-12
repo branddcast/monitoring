@@ -12,6 +12,13 @@ class UserController extends Controller
     {
     	$input = $request->all();
 
+    	//Verificar que no haya un email igual registrado
+    	$existeEmail = User::where('email', $input['email'])->first();
+
+    	if(isset($existeEmail)){
+            return response()->json(array('mensaje' => 'Ya hay un usuario registrado con ese correo electrónico', 'status' => 0));
+        }
+
     	$usuario = new User;
     	$usuario->name = $input['nombre'];
     	$usuario->email =  $input['email'];

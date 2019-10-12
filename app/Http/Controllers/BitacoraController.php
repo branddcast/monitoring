@@ -22,7 +22,7 @@ class BitacoraController extends Controller
     	foreach ($ultimos_registros as $row) {
     		$output = array();
 
-    		$output['usuario'] = ($row->usuario == null) ? 'Usuario no registrado' : $row->usuario;
+    		$output['usuario'] = ($row->usuario == null) ? 'Usuario no registrado' : $row->user->name;
     		$output['proceso'] = $row->proceso;
     		$output['intentos'] = $row->intentos;
     		$output['estado'] = $row->estado;
@@ -37,6 +37,10 @@ class BitacoraController extends Controller
     public function validar_hash(Request $request){
     	$input = $request->all();
 
+        if($input['key'] <= 0){
+            return response()->json(array('mensaje' => 'Id no aceptado', 'estado' => 0));
+        }
+
         $user = User::where('id_huella', $input['key'])->get();
 
     	if($input['intentos'] <= 5){
@@ -45,7 +49,7 @@ class BitacoraController extends Controller
 	    	$total = $user->count();
 
 	    	if($total == 0){
-	    		return response()->json(array('mensaje' => 'Palabra clave no aceptada', 'estado' => 0));
+	    		return response()->json(array('mensaje' => 'Id no aceptado', 'estado' => 0));
 	    	}
 	    }
 
@@ -58,10 +62,10 @@ class BitacoraController extends Controller
     	$registro_nuevo->created_at = Carbon::now();
 
     	if($registro_nuevo->save() == false){
-    		return response()->json(array('mensaje' => 'Error al intentar validar palabra clave. Intente de nuevo', 'estado' => 2));
+    		return response()->json(array('mensaje' => 'Error al intentar validar el Id. Intente de nuevo', 'estado' => 2));
     	}
 
     	return response()->json(array('mensaje' => 'Autenticación generada correctamente', 'estado' => 1));
-
     }
+
 }
