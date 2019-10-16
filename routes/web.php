@@ -24,3 +24,5 @@ Route::get('/bitacora/ultimos_registros', 'BitacoraController@ultimos_registros'
 Route::post('/validar_usuario', 'BitacoraController@validar_hash')->name('validar_usuario');
 Route::post('/datos_generales', 'MonitoreoController@datosGenerales');
 Route::post('/usuarios/agregar_usuario', 'UserController@agregarUsuario');
+Route::get('/usuarios/all', 'UserController@getAll');
+Route::post('/usuarios/auth_user', 'UserController@auth_user');

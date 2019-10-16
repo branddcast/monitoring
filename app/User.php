@@ -37,8 +37,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function bitacora()
+    public function rol_user()
     {
-        return $this->hasOne('App\Models\Bitacora','id');
+        return $this->belongsTo('App\Models\Rol', 'rol');
     }
 }

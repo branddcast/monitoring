@@ -10,30 +10,71 @@
 	</div>
 	<div class="row mt-4">
 		<div class="col-md-12">
-			<span class="monitoring-border-bottom">
-				<b>Autenticación</b>
-			</span>
-			<span class="monitoring-border-bottom" onclick="javascript:make_fingerPrint()">
-				<b id="make_hash">Generar Autenticación</b>
-			</span>
-			<span class="monitoring-border-bottom">
-				<a href="#" data-toggle="modal" data-target="#add_user"><b>Agregar Usuario</b></a>
-			</span>
-
-			<table id="bitacora" class="table table-bordered responsive table-sm mt-3 monitoring-table">
-				<thead class="text-center">
-					<tr>
-						<th scope="col">#</th>
-						<th>Usuario</th>
-						<th>Proceso</th>
-						<th>Intentos Fallidos</th>
-						<th>Estado</th>
-						<th>Fecha</th>
-					</tr>
-				</thead>
-				<tbody class="text-center">
-				</tbody>
-			</table>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+            <span class="monitoring-border-bottom">
+              <b>Autenticación</b>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span class="monitoring-border-bottom" onclick="javascript:make_fingerPrint()">
+              <b id="make_hash">Generar Autenticación</b>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" data-toggle="modal" data-target="#add_user">
+            <span class="monitoring-border-bottom">
+              <b>Agregar Usuario</b>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="usuarios-tab" data-toggle="tab" href="#usuarios" role="tab" aria-controls="usuarios" aria-selected="false" onclick="javascript:usuarios_registrados()">
+            <span class="monitoring-border-bottom">
+              <b>Usuarios</b>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    			<table id="bitacora" class="table table-bordered responsive table-sm mt-3 monitoring-table">
+    				<thead class="text-center">
+    					<tr>
+    						<th scope="col">#</th>
+    						<th>Usuario</th>
+    						<th>Proceso</th>
+    						<th>Intentos Fallidos</th>
+    						<th>Estado</th>
+    						<th>Fecha</th>
+    					</tr>
+    				</thead>
+    				<tbody class="text-center">
+    				</tbody>
+    			</table>
+        </div>
+        <div class="tab-pane fade" id="usuarios" role="tabpanel" aria-labelledby="usuario-tab">
+          <table id="usuarios_registrados" class="table table-bordered responsive table-sm mt-3 monitoring-table">
+            <thead class="text-center">
+              <tr>
+                <th scope="col">#</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Huella</th>
+                <th>Registrado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+            </tbody>
+          </table>
+        </div>
+      </div>
 		</div>
 	</div>
 </div>

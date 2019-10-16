@@ -1,3 +1,5 @@
+var validate_auth_user = null;
+
 $(document).ready(function(){
 
 	datosGenerales();
@@ -53,8 +55,17 @@ function bitacora(){
 	$.ajax({
 		url: base_url + "/bitacora/ultimos_registros",
 		type: 'get',
+
+		beforeSend: function () {
+            $('#bitacora').append('<tr><td colspan="6">'+
+            	'<div class="spinner-grow text-info" role="status">'+
+  					'<span class="sr-only">Loading...</span>'+
+				'</div></td></tr>');
+        },
 		success: function(data){
 			//console.log(data);
+
+			$('#bitacora tbody').empty();
 
 			for (var i = 0; i < data.length; i++) {
 				$('#bitacora').append(
@@ -65,6 +76,44 @@ function bitacora(){
 						'<td>' + data[i].intentos + '</td>' +
 						'<td>' + data[i].estado + '</td>' +
 						'<td>' + data[i].fecha + '</td>' +
+					'</tr>'
+				);
+			}
+
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+		}
+	});
+}
+
+function usuarios_registrados(){
+	$.ajax({
+		url: base_url + "/usuarios/all",
+		type: 'get',
+
+		beforeSend: function () {
+			$('#usuarios_registrados tbody').empty();
+            $('#usuarios_registrados').append('<tr><td colspan="7">'+
+            	'<div class="spinner-grow text-info" role="status">'+
+  					'<span class="sr-only">Loading...</span>'+
+				'</div></td></tr>');
+        },
+		success: function(data){
+			//console.log(data);
+
+			$('#usuarios_registrados tbody').empty();
+
+			for (var i = 0; i < data.length; i++) {
+				$('#usuarios_registrados').append(
+					'<tr>' +
+						'<th class="scope">' + (i+1) + '</th>' +
+						'<td>' + data[i].nombre + '</td>' +
+						'<td>' + data[i].email + '</td>' +
+						'<td>' + data[i].rol + '</td>' +
+						'<td>' + data[i].huella + '</td>' +
+						'<td>' + data[i].fecha + '</td>' +
+						'<td>' + data[i].acciones + '</td>' +
 					'</tr>'
 				);
 			}
@@ -148,7 +197,8 @@ function make_fingerPrint(){
 			intentos_cont = 0;
 		}
 
-		alert('Ha superado la cantidad máxima de intentos, espere unos minutos. Por favor.\n\nEspere hasta ' + date_aux.getDate() + '-' + (date_aux.getMonth()+1) + '-' + date_aux.getFullYear() + ' ' +date_aux.getHours() + ':' + date_aux.getMinutes() + '\n\n');
+		//alert('Ha superado la cantidad máxima de intentos, espere unos minutos. Por favor.\n\nEspere hasta ' + date_aux.getDate() + '-' + (date_aux.getMonth()+1) + '-' + date_aux.getFullYear() + ' ' +date_aux.getHours() + ':' + date_aux.getMinutes() + '\n\n');
+		alerta('¡Oops!', 'Ha superado la cantidad máxima de intentos, espere unos minutos. Por favor.\n\nEspere hasta ' + date_aux.getDate() + '-' + (date_aux.getMonth()+1) + '-' + date_aux.getFullYear() + ' ' +date_aux.getHours() + ':' + date_aux.getMinutes() + '\n\n', 'warning');
 		return false;
 	}
 
@@ -156,7 +206,8 @@ function make_fingerPrint(){
 	console.log(key);
 
 	if(key <= 0){
-		alert('Ingrese un Id correcto.');
+		//alert('Ingrese un Id correcto.');
+		alerta('¡Oops!', 'Ingrese un Id correcto', 'error');
 		intentos_cont += 1;
 		return false;
 	}
@@ -171,7 +222,8 @@ function make_fingerPrint(){
 		},
 		success: function(data){
 			if(data.estado == 1){
-				alert(data.mensaje + '\n\n');
+				//alert(data.mensaje + '\n\n');
+				alerta('¡Genial!', data.mensaje, 'success');
 				$('#bitacora tbody').empty();
 				bitacora();
 
@@ -182,7 +234,8 @@ function make_fingerPrint(){
 				if(data.estado == 0){
 					intentos_cont += 1;
 				}
-				alert(data.mensaje + '\n\n');
+				//alert(data.mensaje + '\n\n');
+				alerta('¡Oops!', data.mensaje, 'error');
 				console.log(intentos_cont);
 			}
 		},
@@ -193,6 +246,7 @@ function make_fingerPrint(){
 }
 
 function save_user(){
+	validate_auth_user = null;
 	var nombre = $('#user_name').val();
 	var email = $('#user_email').val();
 	var password = $('#user_password').val();
@@ -209,60 +263,135 @@ function save_user(){
 		return false;
 	}
 
-	$.ajax({
-		url: base_url + "/usuarios/agregar_usuario",
-		type: 'post',
-		data:{
-			nombre : nombre,
-			email: email,
-			password: password,
-		    _token: token
-		},
-		success: function(data){
-			if(data.status == 1){
-				alert(data.mensaje + '\n\n');
-
-				$('#user_name').val('');
-				$('#user_email').val('');
-				$('#user_password').val('');
-				$('#user_password_confirmed').val('');
-
-				$('#add_user').modal('hide');
-			}else{
-				alert(data.mensaje + '\n\n');
-			}
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(XMLHttpRequest);
-		}
-	});
-
+	$('#add_user').modal('hide');
+	eject_ajax_user(validate);
 }
 
 function validate_form(validate){
 	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 	if(validate.nombre == ""){
-		alert('El campo del nombre no debe estar vacío');
+		//alert('El campo del nombre no debe estar vacío');
+		alerta('¡Oops!', 'El campo del nombre no debe estar vacío', 'info');
 		return false;
 	}
 
 	if (validate.email == "") {
-		alert('El campo del correo electrónico no debe estar vacío');
+		//alert('El campo del correo electrónico no debe estar vacío');
+		alerta('¡Oops!', 'El campo del correo electrónico no debe estar vacío', 'info');
 		return false;
 	}else if (!filter.test(validate.email)) {
-		alert('El campo del correo electrónico debe llevar un formato: correo@ejemplo.com');
+		//alert('El campo del correo electrónico debe llevar un formato: correo@ejemplo.com');
+		alerta('¡Oops!', 'El campo del correo electrónico debe llevar un formato: correo@ejemplo.com', 'info');
 		return false;
 	}
 
 	if (validate.password == "" || validate.password_confirmed == "") {
-		alert('Los campos de las contraseñas no deben estar vacíos');
+		//alert('Los campos de las contraseñas no deben estar vacíos');
+		alerta('¡Oops!', 'Los campos de las contraseñas no deben estar vacíos', 'info');
 		return false;
 	}else if (validate.password != validate.password_confirmed) {
-		alert("Las contraseñas no coinciden. Escríbalas correctamente");
+		//alert("Las contraseñas no coinciden. Escríbalas correctamente");
+		alerta('¡Oops!', 'Las contraseñas no coinciden. Escríbalas correctamente', 'info');
 		return false;
 	}
 
 	return true;
 }
 
+function alerta(title, text, icon, button = 'Aceptar'){
+	swal({
+	  title: title,
+	  text: text,
+	  icon: icon,
+	  button: button,
+	});
+}
+
+function eject_ajax_user(validate){
+
+	var password;
+
+	$('#user_auth').modal('show');
+
+	$('#user_auth_submit').click(function(){
+		//Validar pretición
+	 	password = $('#user_auth_password').val();
+
+	 	console.log(password);
+
+	 	if(password == null || password == ''){
+	 		alerta('¡Oops!', 'No debes dejar el campo vacío.', 'warning');
+	 		return false;
+	 	}
+
+	 	$('#user_auth').modal('hide');
+	 	$.post(base_url + "/usuarios/auth_user",{usuario: id_user, password: password, _token: token}, function(data, status){
+			setUserAuth(data.auth, validate);
+		});
+	});
+}
+
+function setUserAuth(paramValidate = null, validate){
+	validate_auth_user = paramValidate;
+
+	if(validate_auth_user == 0 || validate_auth_user == null){
+		alerta('¡Oops!', 'Error en credenciales de Administrador. Repita el proceso.', 'warning');
+		$('#user_auth_password').val('');
+		$('#user_auth').modal('show');
+		return false;
+	}
+
+	ajax_user(validate, 'save', validate_auth_user);
+}
+
+function ajax_user(validate, option, checked){
+
+	if(checked == 0){
+		return false;
+	}
+
+	switch(option){
+		case 'save' :
+			$.ajax({
+				url: base_url + "/usuarios/agregar_usuario",
+				type: 'post',
+				data:{
+					nombre : validate.nombre,
+					email: validate.email,
+					password: validate.password,
+				    _token: token
+				},
+				success: function(data){
+					if(data.status == 1){
+						//alert(data.mensaje + '\n\n');
+						alerta('¡Genial!', data.mensaje, 'success');
+
+						$('#user_name').val('');
+						$('#user_email').val('');
+						$('#user_password').val('');
+						$('#user_password_confirmed').val('');
+						$('.modal-backdrop').hide();
+						usuarios_registrados();
+					}else{
+						//alert(data.mensaje + '\n\n');
+						$('#add_user').modal('show');
+						alerta('¡Oops!', data.mensaje, 'error');
+
+					}
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					console.log(XMLHttpRequest);
+				}
+			});
+			break;
+		case 'delete' :
+			//delete
+			console.log('Delete user');
+			break;
+		case 'update' :
+			//update
+			console.log('Update user');
+			break;
+	}
+}
