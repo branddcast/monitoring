@@ -109,7 +109,8 @@ class UserController extends Controller
             'rol' => $user->rol,
             'mensaje' => '',
             'id' => $user->id,
-            'status' => 1
+            'status' => 1,
+            'disabled' => ($user->email == 'admin@demo.com') ? 1 : 0,
         );
 
         return response()->json($response);

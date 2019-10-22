@@ -61,7 +61,10 @@ class BitacoraController extends Controller
 	    	if($total == 0){
 	    		return response()->json(array('mensaje' => 'Id no aceptado. Verifique que la huella este registrada.', 'estado' => 0));
 	    	}
-	    }
+            $response = array('mensaje' => 'Autenticación generada correctamente', 'estado' => 1);
+	    }else{
+            $response = array('mensaje' => 'Autenticación bloqueada', 'estado' => 0);
+        }
 
     	$registro_nuevo = new Bitacora;
 
@@ -75,7 +78,7 @@ class BitacoraController extends Controller
     		return response()->json(array('mensaje' => 'Error al intentar validar el Id. Intente de nuevo', 'estado' => 2));
     	}
 
-    	return response()->json(array('mensaje' => 'Autenticación generada correctamente', 'estado' => 1));
+    	return response()->json($response);
     }
 
 }

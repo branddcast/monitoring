@@ -306,6 +306,12 @@ function updateUser(id){
 				return false;
 			}
 
+			if(data.disabled == 1){
+				$('#user_name').prop('disabled', true);
+				$('#user_email').prop('disabled', true);
+				$("#user_rol option").prop("disabled", true);
+			}
+
 			$('#hidden_id_input').val(data.id);
 			$('#user_name').val(data.nombre);
 			$('#user_email').val(data.email);
