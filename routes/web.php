@@ -39,3 +39,4 @@ Route::get('/roles/all', function(){
 	}
 	return response()->json($response);
 });
+Route::post('/consumo_electrico/all', 'ConsumoElectricoController@getAll');

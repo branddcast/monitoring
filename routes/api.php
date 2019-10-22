@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/validar_usuario', 'BitacoraController@validar_hash')->name('validar_usuario');
+Route::post('/consumo_electrico/inputs', 'ConsumoElectricoController@inputs_electricos');
 

@@ -120,45 +120,19 @@
 						</span>
 					</div>
 					<div class="col-md-12">
-						<table class="table responsive table-bordered table-sm monitoring-table">
+						<table id="consumo_electrico_tabla" class="table responsive table-bordered table-sm monitoring-table">
 							<thead class="text-center">
 								<tr>
 									<th scope="col">#</th>
-									<th scope="col">Dato 1</th>
-									<th scope="col">Dato 2</th>
-									<th scope="col">Dato 3</th>
-									<th scope="col">Dato 4</th>
+									<th scope="col">Voltaje</th>
+									<th scope="col">Corriente</th>
+									<th scope="col">Potencia</th>
+									<th scope="col">Costo</th>
+									<th scope="col">Tiempo</th>
 								</tr>
 							</thead>
 							<tbody class="text-center">
-								<tr>
-									<th scope="row">1</th>
-									<td>Valor 1</td>
-									<td>Valor 2</td>
-									<td>Valor 3</td>
-									<td>Valor 4</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Valor 1</td>
-									<td>Valor 2</td>
-									<td>Valor 3</td>
-									<td>Valor 4</td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Valor 1</td>
-									<td>Valor 2</td>
-									<td>Valor 3</td>
-									<td>Valor 4</td>
-								</tr>
-								<tr>
-									<th scope="row">4</th>
-									<td>Valor 1</td>
-									<td>Valor 2</td>
-									<td>Valor 3</td>
-									<td>Valor 4</td>
-								</tr>
+								
 							</tbody>
 						</table>
 					</div>

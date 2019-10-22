@@ -7,6 +7,7 @@ $(document).ready(function(){
 	bitacora();
 	comboBox_roles();
 	$('#user_loading').hide();
+	
 });
 
 var intentos_cont = 0;
@@ -33,6 +34,8 @@ function datosGenerales(){
 			console.log(XMLHttpRequest);
 		}
 	});
+
+	consumo_electrico_tabla();
 }
 
 function grafica_1(){
@@ -674,4 +677,45 @@ function solicitar_huella_usuario(usuario){
 
 function startFingerPrintProcess(){
 	console.log("Inicia proceso para registar huellla");
+}
+
+function consumo_electrico_tabla(){
+	$.ajax({
+		url: base_url + "/consumo_electrico/all",
+		type: 'post',
+		data: {
+			_token: token
+		},
+
+		beforeSend: function () {
+			$('#consumo_electrico_tabla tbody').empty();
+            $('#consumo_electrico_tabla').append('<tr><td colspan="7">'+
+            	'<div class="spinner-grow text-info" role="status">'+
+  					'<span class="sr-only">Loading...</span>'+
+				'</div></td></tr>');
+        },
+		success: function(data){
+			console.log(data);
+
+			$('#consumo_electrico_tabla tbody').empty();
+
+			for (var i = 0; i < data.length; i++) {
+				$('#consumo_electrico_tabla tbody').append(
+					'<tr>' +
+						'<th class="scope">' + (i+1) + '</th>' +
+						'<td>' + data[i].voltaje + ' v</td>' +
+						'<td>' + data[i].corriente + ' A</td>' +
+						'<td>' + data[i].potencia + ' kW</td>' +
+						'<td>$ ' + data[i].costo + '</td>' +
+						'<td>' + data[i].tiempo + '</td>' +
+					'</tr>'
+				);
+			}
+
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+		}
+	});
+
 }
