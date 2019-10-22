@@ -12,7 +12,9 @@ class BitacoraController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth' , 
+            ['except' => ['validar_hash']]
+        );
     }
     
     public function index(){
@@ -46,7 +48,10 @@ class BitacoraController extends Controller
             return response()->json(array('mensaje' => 'Id no aceptado', 'estado' => 0));
         }
 
-        $user = User::where('id_huella', $input['key'])->get();
+        $user = User::where([
+            ['id_huella', $input['key']],
+            ['activo', 1]
+        ])->get();
 
     	if($input['intentos'] <= 5){
 	    	//$hash = Hash::where('hash', sha1($input['key']))->get();
@@ -54,7 +59,7 @@ class BitacoraController extends Controller
 	    	$total = $user->count();
 
 	    	if($total == 0){
-	    		return response()->json(array('mensaje' => 'Id no aceptado', 'estado' => 0));
+	    		return response()->json(array('mensaje' => 'Id no aceptado. Verifique que la huella este registrada.', 'estado' => 0));
 	    	}
 	    }
 

@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 
+
 class UsersSeeder extends Seeder
 {
     /**
@@ -14,9 +15,10 @@ class UsersSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Administrador',
-            'email' => 'jcastillo.brandon@gmail.com',
-            'password' => bcrypt('brandito'),
-            'rol' => 1
+            'email' => 'admin@demo.com',
+            'password' => bcrypt('admin'),
+            'rol' => 1,
+            'created_at' => \Carbon\Carbon::now()
         ]);
     }
 }

@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/validar_usuario', 'BitacoraController@validar_hash')->name('validar_usuario');
+

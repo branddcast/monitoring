@@ -26,7 +26,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link" data-toggle="modal" data-target="#add_user">
+          <a href="#" onclick="javascript:user_form()" class="nav-link">
             <span class="monitoring-border-bottom">
               <b>Agregar Usuario</b>
             </span>
@@ -80,7 +80,7 @@
 </div>
 
 <!-- User Form Modal -->
-<div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="add_userTitle" aria-hidden="true">
+<div class="modal fade" id="add_user" data-id="0" tabindex="-1" role="dialog" aria-labelledby="add_userTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -90,33 +90,48 @@
         </button>
       </div>
       <div class="modal-body">
+        <div id="user_loading" style="position: absolute; left:0; z-index: 9999; background: #fff; width: 100%; height: 100%; justify-content: center; display: flex; align-items: center;">
+          <div class="spinner-grow text-info" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       	<div class="container">
       		<div class="row">
       			<div class="col-md-12">
       				<small>Éste formulario es para añadir un nuevo usuario a la base de datos. Para registrar la huella dactilar, utilizar el sensor biométrico de la caja fuerte.</small>
       			</div>
       		</div>
+          <input type="hidden" id="hidden_process_input" value="save">
+          <input type="hidden" id="hidden_id_input" value="0">
+          <input type="hidden" id="hidden_auth_input" value="0">
       		<div class="row mt-4">
       			<div class="col-md-6">
-      				<input id="user_name" class="form-control form-control-sm" type="text" placeholder="Nombre" required>
+      				<input id="user_name" class="form-control form-control-sm" type="text" placeholder="Nombre">
       			</div>
       			<div class="col-md-6">
-      				<input id="user_email" class="form-control form-control-sm" type="text" placeholder="Email" required>
+      				<input id="user_email" class="form-control form-control-sm" type="text" placeholder="Email">
       			</div>
       		</div>
       		<div class="row mt-2">
       			<div class="col-md-6">
-      				<input id="user_password" class="form-control form-control-sm" type="password" placeholder="Contraseña" required>
+      				<input id="user_password" class="form-control form-control-sm" type="password" placeholder="Contraseña">
       			</div>
       			<div class="col-md-6">
-      				<input id="user_password_confirmed" class="form-control form-control-sm" type="password" placeholder="Repetir Contraseña" required>
+      				<input id="user_password_confirmed" class="form-control form-control-sm" type="password" placeholder="Repetir Contraseña">
       			</div>
       		</div>
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <select id="user_rol" class="custom-select custom-select-sm">
+                <option value="0" disabled selected>Seleccione Rol</option>
+              </select>
+            </div>
+          </div>
       	</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary btn-sm" onclick="javascript:save_user()">Guardar</button>
+        <button id="saveUser_button" data-process="save" type="button" class="btn btn-primary btn-sm" onclick="javascript:save_user()">Guardar</button>
       </div>
     </div>
   </div>
