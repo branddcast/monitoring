@@ -73,6 +73,9 @@
                             @endif
                         @else
                             <li class="nav-item">
+                                <a href="#" onclick="javascript:registrar_huella();" class="nav-link">Registrar <i class="fas fa-fingerprint text-success"></i></a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ url('monitoreo') }}">Monitoreo</a>
                             </li>
                             <li class="nav-item">
@@ -139,6 +142,59 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
             <button id="user_auth_submit" type="button" class="btn btn-primary btn-sm">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Make FingerPrint Modal -->
+    <div class="modal fade" id="fingerPrint" data-id="0" tabindex="-1" role="dialog" aria-labelledby="fingerPrintTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="fingerPrintTitle">Registrar nueva huella</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="fingerPrint_loading" style="position: absolute; left:0; z-index: 9999; background: #fff; width: 100%; height: 100%; justify-content: center; display: flex; align-items: center;">
+              <div class="spinner-grow text-success" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+            <div class="container">
+                <div class="row border-bottom pb-3">
+                    <div class="col-md-10">
+                        <small>Escriba el correo electrónico del usuario a registrar la huella</small>
+                        <input type="text" id="fingerPrint_usuario" class="form-control form-control-sm" placeholder="Email">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 mb-3">
+                        <small>Nombre: </small>
+                        <input type="text" id="fingerPrint_nombre" class="form-control" disabled></input>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <small>Email: </small>
+                        <input type="text" id="fingerPrint_email" class="form-control" disabled></input>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <small>Rol: </small>
+                        <input type="text" id="fingerPrint_rol" class="form-control" disabled></input>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <small>Estatus de Huella: </small>
+                        <input type="text" id="fingerPrint_huella" class="form-control" disabled> <i id="eliminar_huella" class="fas fa-times" data-toggle="tooltip" data-placement="top" title="Eliminar huella" style="position: absolute; top:35px; right: 30px; display: none;"></i></input>
+                        <input type="hidden" id="usuario_id">
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+            <button id="registrar_huella_btn" style="display: none;" data-process="save" type="button" class="btn btn-primary btn-sm" onclick="javascript:startFingerPrintProcess()">Registrar</button>
           </div>
         </div>
       </div>

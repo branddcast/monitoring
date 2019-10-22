@@ -57,7 +57,9 @@ class UserController extends Controller
 
         $user->name = $input['nombre'];
         $user->email = $input['email'];
-        $user->rol = $input['rol'];
+        if(isset($input['rol'])){
+            $user->rol = $input['rol'];
+        }
         if($input['password'] != '' || $input['password'] != null){
             $user->password = Hash::make($input['password']);
         }
@@ -143,5 +145,44 @@ class UserController extends Controller
             return response()->json(["mensaje" => "Usuario eliminado correctamente", "status" => 1]);
 
         return response()->json(["mensaje" => "Ocurrió un problema al intentar eliminar al usuario", "status" => 0]);
+    }
+
+    public function huella_usuario($usuario)
+    {
+        $user = User::where([
+            ['email', $usuario],
+            ['activo', 1]
+        ])->first();
+
+        if(!isset($user->id)){
+            return response()->json(array('mensaje' => 'Usuario no encontrado', 'fail' => 1));
+        }
+
+        $response = array(
+            'nombre' => $user->name,
+            'email' => $user->email,
+            'rol' => $user->rol_user->Nombre,
+            'mensaje' => '',
+            'id' => $user->id,
+            'status' => ($user->id_huella != 0 )? 1: 0,
+            'huella' => ($user->id_huella != 0 )? "Huella Registrada": "Huella Sin registrar",
+            'fail' => 0
+        );
+
+        return response()->json($response);
+    }
+
+    public function huella_eliminar(Request $request){
+        $input = $request->all();
+
+        $user = User::find($input['usuario']);
+
+        $user->id_huella = 0;
+
+        if ($user->save()) {
+            return response()->json(["mensaje" => "Huella Eliminada correctamente", "status" => 1]);
+        }else{
+            return response()->json(["mensaje" => "Error al eliminar la huella", "status" => 0]);
+        }
     }
 }

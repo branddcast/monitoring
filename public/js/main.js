@@ -2,6 +2,7 @@ var validate_auth_user = null;
 
 $(document).ready(function(){
 
+	$('[data-toggle="tooltip"]').tooltip();
 	datosGenerales();
 	bitacora();
 	comboBox_roles();
@@ -572,4 +573,105 @@ function user_form(){
 
 	$('#add_user').modal('toggle');
 	$('#hidden_process_input').val('save');
+}
+
+function registrar_huella(){
+	$('#fingerPrint_nombre').val('');
+	$('#fingerPrint_email').val('');
+	$('#fingerPrint_rol').val('');
+	$('#fingerPrint_huella').val('');
+	$('#usuario_id').val('');
+	$('#fingerPrint_usuario').val('');
+
+	$('#fingerPrint_loading').hide();
+	$('#fingerPrint').modal('show');
+	
+	$('#fingerPrint_usuario').focusout(function (){
+		
+		var usuario = $('#fingerPrint_usuario').val();
+		
+		//Solicitar usuario
+
+		solicitar_huella_usuario(usuario);
+	});
+}
+
+$('#eliminar_huella').click(function () {
+	var usuario = $('#usuario_id').val();
+	var email = $('#fingerPrint_usuario').val();
+
+	$.ajax({
+			url: base_url + "/usuarios/huella_eliminar",
+			type: 'post',
+			data: {
+				usuario: usuario,
+				_token: token
+			},
+
+			/*beforeSend: function () {
+				//$('#fingerPrint_loading').show();
+	        },*/
+			success: function(data){
+
+				if (data.status == 1) {
+					alerta('Genial!', data.mensaje, 'success');
+					var usuario = $('#fingerPrint_usuario').val();
+					//Solicitar usuario
+
+					solicitar_huella_usuario(email);
+				}else{
+					alerta('¡Oops!', data.mensaje, 'warning');
+				}
+
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+			}
+		});
+});
+
+function solicitar_huella_usuario(usuario){
+	$.ajax({
+			url: base_url + "/usuarios/huella_usuario/" + usuario,
+			type: 'get',
+
+			beforeSend: function () {
+				$('#fingerPrint_loading').show();
+	        },
+			success: function(data){
+				//console.log(data);
+				$('#fingerPrint_loading').hide();
+				
+				$('#fingerPrint_nombre').val(data.nombre);
+				$('#fingerPrint_email').val(data.email);
+				$('#fingerPrint_rol').val(data.rol);
+				$('#fingerPrint_huella').val(data.huella);
+
+				if (data.status == 1) {
+					$('#fingerPrint_huella').removeClass('text-danger');
+					$('#fingerPrint_huella').addClass('text-success');
+					$('#eliminar_huella').show();
+					$('#usuario_id').val(data.id);
+					$('#registrar_huella_btn').hide();
+				}else{
+					$('#fingerPrint_huella').removeClass('text-success');
+					$('#fingerPrint_huella').addClass('text-danger');
+					$('#eliminar_huella').hide();
+					$('#usuario_id').val('');
+					$('#registrar_huella_btn').show();
+				}
+
+				if (data.fail == 1) {
+					alerta('¡Oops!', 'Parece que no existe un usuario con ' + usuario, 'warning');
+				}
+
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+			}
+		});
+}
+
+function startFingerPrintProcess(){
+	console.log("Inicia proceso para registar huellla");
 }

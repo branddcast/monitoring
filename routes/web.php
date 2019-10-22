@@ -24,7 +24,8 @@ Route::get('bitacora/ultimos_registros', 'BitacoraController@ultimos_registros')
 //Route::post('/validar_usuario', 'BitacoraController@validar_hash')->name('validar_usuario');
 Route::post('/datos_generales', 'MonitoreoController@datosGenerales');
 Route::post('/usuarios/agregar_usuario', 'UserController@agregarUsuario');
-
+Route::get('/usuarios/huella_usuario/{usuario}', 'UserController@huella_usuario');
+Route::post('/usuarios/huella_eliminar', 'UserController@huella_eliminar');
 Route::get('/usuarios/all', 'UserController@getAll');
 Route::get('/usuarios/usuario/{id}', 'UserController@getUser');
 Route::post('/usuarios/auth_user', 'UserController@auth_user');
