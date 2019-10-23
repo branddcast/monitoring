@@ -15,6 +15,10 @@ class ConsumoElectricoController extends Controller
     	$encendido = new DateTime($input['encendido']);//fecha inicial
 		$apagado = new DateTime($input['apagado']);//fecha de cierre
 
+        if($encendido > $apagado){
+            return response()->json(["estatus" => 0]);
+        }
+
 		$intervalo = $encendido->diff($apagado);
 
 		$horas = $intervalo->format('%H');

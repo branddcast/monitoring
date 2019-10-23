@@ -16,6 +16,7 @@ class SettingSeeder extends Seeder
             'nombre_titular' => $faker->name,
             'apellidos_titular' => $faker->lastname,
             'seccion' => 'Caja Fuerte',
+            'periodo' => '15',
             'usuario' => 1
         ]);
     }

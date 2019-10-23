@@ -21,6 +21,17 @@ class MonitoreoController extends Controller
 
     	$datos = DB::table('settings')->where('usuario', $input['id'])->first();
 
-        return response()->json($datos);
+        $fecha_actual = date("d-m-Y");
+
+        $periodo = date("d-m-Y",strtotime($fecha_actual."- 15 days"));
+
+        $output = array(
+            'nombre_titular' => $datos->nombre_titular,
+            'apellido_titular' => $datos->apellidos_titular,
+            'seccion' => $datos->seccion,
+            'periodo' => $periodo.' a '.date("d-m-Y")
+        );
+
+        return response()->json($output);
     }
 }
