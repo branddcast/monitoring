@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DateTime;
 use App\Models\ConsumoElectrico;
+use Carbon\Carbon;
 
 class ConsumoElectricoController extends Controller
 {
@@ -72,5 +73,38 @@ class ConsumoElectricoController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function grafica_potencia(){
+
+    	$response = array();
+
+    	for($i = 15; $i >= 1; $i-=2){
+    		$datos = ConsumoElectrico::select('id', 'potencia')->where([
+	    		['encendido', '>=', Carbon::now()->subDays($i)],
+	    		['encendido', '<=', Carbon::now()->subDays($i-2)]
+	    	])->get();
+
+    		//$output = array($datos);
+    		$response[] = $datos;
+    		//$response[] = array(Carbon::now()->subDays($i), Carbon::now()->subDays($i-1));
+    	}
+
+    	return response()->json($response);
+    }
+
+    public function grafica_voltaje_corriente(){
+    	$response = array();
+
+    	for($i = 15; $i >= 1; $i-=2){
+    		$datos = ConsumoElectrico::select('id', 'voltaje', 'corriente')->where([
+	    		['encendido', '>=', Carbon::now()->subDays($i)],
+	    		['encendido', '<=', Carbon::now()->subDays($i-2)]
+	    	])->get();
+
+    		$response[] = $datos;
+    	}
+
+    	return response()->json($response);
     }
 }

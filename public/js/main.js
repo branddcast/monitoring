@@ -3,6 +3,8 @@ var validate_auth_user = null;
 $(document).ready(function(){
 
 	$('[data-toggle="tooltip"]').tooltip();
+	potencias();
+	voltaje_corriente();
 	datosGenerales();
 	bitacora();
 	comboBox_roles();
@@ -718,4 +720,172 @@ function consumo_electrico_tabla(){
 		}
 	});
 
+}
+
+function potencias(){
+	$.ajax({
+		url: base_url + "/grafica_potencia",
+		type: 'get',
+
+		/*beforeSend: function () {
+			$('#consumo_electrico_tabla tbody').empty();
+            $('#consumo_electrico_tabla').append('<tr><td colspan="7">'+
+            	'<div class="spinner-grow text-info" role="status">'+
+  					'<span class="sr-only">Loading...</span>'+
+				'</div></td></tr>');
+        },*/
+		success: function(data){
+			//console.log(data[0][0].id);
+
+			var datos = new Array();
+
+			for (var i = 0; i < data.length; i++) {
+				var potencia = 0;
+				for (var j = 0; j < data[i].length; j++) {
+					potencia += parseFloat(data[i][j].potencia);
+					//console.log(data[i][j].potencia);
+				}
+				datos.push(potencia);
+			}
+
+			console.log(datos);
+
+			var grafica_potencia = Highcharts.chart('grafica_potencia', {
+			    chart: {
+			        type: 'spline'
+			    },
+			    title: {
+			        text: 'Potencia Eléctrica'
+			    },
+			    subtitle: {
+			        text: 'Consumo últimos 15 días'
+			    },
+			    xAxis: {
+			    	title: {
+			            text: 'Días'
+			        },
+			        categories: ['1-2', '3-4', '5-6', '7-8', '9-10', '11-12', '13-14', '15']
+			    },
+			    yAxis: {
+			        title: {
+			            text: 'Potencia (kW)'
+			        }
+			    },
+			    plotOptions: {
+			        line: {
+			            dataLabels: {
+			                enabled: true
+			            },
+			            enableMouseTracking: false
+			        }
+			    },
+			    series: [{
+			        name: 'Potencia',
+			        data: datos
+			    }]
+			});
+
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+		}
+	});
+}
+
+function voltaje_corriente(){
+	$.ajax({
+		url: base_url + "/grafica_voltaje_corriente",
+		type: 'get',
+
+		/*beforeSend: function () {
+			$('#consumo_electrico_tabla tbody').empty();
+            $('#consumo_electrico_tabla').append('<tr><td colspan="7">'+
+            	'<div class="spinner-grow text-info" role="status">'+
+  					'<span class="sr-only">Loading...</span>'+
+				'</div></td></tr>');
+        },*/
+		success: function(data){
+			console.log(data);
+
+			var voltaje = new Array();
+			var corriente = new Array();
+
+			for (var i = 0; i < data.length; i++) {
+				var volts = 0;
+				var ampers = 0;
+				for (var j = 0; j < data[i].length; j++) {
+					volts += parseFloat(data[i][j].voltaje);
+					ampers += parseFloat(data[i][j].corriente);
+					//console.log(data[i][j].potencia);
+				}
+
+				voltaje.push(volts);
+				corriente.push(ampers);
+			}
+
+			console.log(voltaje);
+			console.log(corriente);
+			
+			var grafica_voltaje_corriente = Highcharts.chart('grafica_voltaje_corriente', {
+			    chart: {
+			        type: 'area'
+			    },
+			    title: {
+			        text: 'Voltaje y Corriente Eléctrica'
+			    },
+			    subtitle: {
+			        text: 'Valores de consumo en los últimos 15 días'
+			    },
+			    xAxis: {
+			        allowDecimals: false,
+			        labels: {
+			            formatter: function () {
+			                return this.value; // clean, unformatted number for year
+			            }
+			        }
+			    },
+			    xAxis: {
+			    	title: {
+			            text: 'Días'
+			        },
+			        categories: ['1-2', '3-4', '5-6', '7-8', '9-10', '11-12', '13-14', '15']
+			    },
+			    yAxis: {
+			        /*labels: {
+			            formatter: function () {
+			                return this.value / 1000;
+			            }
+			        }*/
+			    },
+			    /*tooltip: {
+			        pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+			    },*/
+			    plotOptions: {
+			        area: {
+			            marker: {
+			                enabled: false,
+			                symbol: 'circle',
+			                radius: 2,
+			                states: {
+			                    hover: {
+			                        enabled: true
+			                    }
+			                }
+			            }
+			        }
+			    },
+			    series: [{
+			        name: 'Voltaje',
+			        data: voltaje
+			    }, {
+			        name: 'Corriente',
+			        data: corriente
+			    }]
+			});
+
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+		}
+	});
 }

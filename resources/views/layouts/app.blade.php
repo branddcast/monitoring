@@ -23,21 +23,21 @@
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
     <!-- JQuery -->
-    <script src="{{ asset('js/jquery-3.4.1.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
 
     <!-- Sweetlert -->
     <script src="{{ asset('js/sweetalert.min.js') }}" defer></script>
 
-    <!-- Chart JS -->
-    <script src="https://code.highcharts.com/highcharts.js" defer></script>
-    <script src="https://code.highcharts.com/highcharts-more.js" defer></script>
-    <script src="https://code.highcharts.com/modules/solid-gauge.js" defer></script>
-    <script src="https://code.highcharts.com/modules/exporting.js" defer></script>
-    <script src="https://code.highcharts.com/modules/export-data.js" defer></script>
-
     <!-- Bootstrap JS -->
     <script src="{{ asset('js/popper.min.js') }}" defer></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
+
+    <!-- Chart JS -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <!--<script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>-->
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
 </head>
 <body>
     <div id="app">
@@ -66,11 +66,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
+                            <!--
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
-                            @endif
+                            @endif-->
                         @else
                             <li class="nav-item">
                                 <a href="#" onclick="javascript:registrar_huella();" class="nav-link">Registrar <i class="fas fa-fingerprint text-success"></i></a>
