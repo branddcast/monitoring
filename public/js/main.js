@@ -31,6 +31,7 @@ function datosGenerales(){
 			$('#nombre_titular').text(data.nombre_titular + ' ' + data.apellidos_titular);
 			$('#seccion').text(data.seccion);
 			$('#periodo').text(data.periodo);
+			$('#costo').text('$ ' + data.costo);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Models\ConsumoElectrico;
+use Carbon\Carbon;
 
 class MonitoreoController extends Controller
 {
@@ -25,11 +27,23 @@ class MonitoreoController extends Controller
 
         $periodo = date("d-m-Y",strtotime($fecha_actual."- 15 days"));
 
+        $costos = ConsumoElectrico::where([
+                ['encendido', '>=', Carbon::now()->subDays(15)],
+                ['encendido', '<=', Carbon::now()]
+            ])->get();
+
+        $costo = 0;
+
+        foreach ($costos as $precio) {
+            $costo += $precio->costo;
+        }
+
         $output = array(
             'nombre_titular' => $datos->nombre_titular,
             'apellido_titular' => $datos->apellidos_titular,
             'seccion' => $datos->seccion,
-            'periodo' => $periodo.' a '.date("d-m-Y")
+            'periodo' => $periodo.' a '.date("d-m-Y"),
+            'costo' => (float) bcdiv($costo, 1, 2)
         );
 
         return response()->json($output);

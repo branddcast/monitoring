@@ -19,7 +19,8 @@
 						<p class="mt-3 datos_generales_p">
 						   Nombre: <label id="nombre_titular"></label><br/>
 						   Sección: <label id="seccion"></label> <br/>
-						   Periodo: <label id="periodo"></label>
+						   Periodo: <label id="periodo"></label><br/>
+						   Costo: <label id="costo"></label>
 						</p>
 					</div>
 					<div class="col-md-6 text-right">
