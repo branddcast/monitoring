@@ -41,6 +41,34 @@ function datosGenerales(){
 	consumo_electrico_tabla();
 }
 
+function gauge(){
+	$.ajax({
+		url: base_url + "/gauge",
+		type: 'get',
+		success: function(data){
+			//console.log(data.apellidos_titular);
+
+			var potencia = data.potencia;
+			var porcentaje = (potencia * 100) / 600;
+			var grados;
+
+			if(porcentaje>0 && porcentaje<=20){
+				grados = 0;
+			}else if(porcentaje>21 && porcentaje<=55){
+				grados = 180;
+			}
+
+			$('.gauge-center').text(potencia);
+			$('.needle').prop('style', 'transform: rotate()');
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+		}
+	});
+
+	consumo_electrico_tabla();
+}
+
 function grafica_1(){
 	var options = {
 		chart: {

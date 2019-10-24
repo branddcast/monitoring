@@ -24,6 +24,8 @@
 
     <!-- JQuery -->
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+    <script src="{{ asset('js/kuma-gauge.jquery.js') }}"></script>
 
     <!-- Sweetlert -->
     <script src="{{ asset('js/sweetalert.min.js') }}" defer></script>
@@ -34,9 +36,8 @@
 
     <!-- Chart JS -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <!--<script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>-->
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <!--<script src="{{ asset('js/raphael-min.js') }}"></script>-->
 
 </head>
 <body>

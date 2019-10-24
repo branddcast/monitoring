@@ -42,3 +42,4 @@ Route::get('/roles/all', function(){
 Route::post('/consumo_electrico/all', 'ConsumoElectricoController@getAll');
 Route::get('/grafica_potencia', 'ConsumoElectricoController@grafica_potencia');
 Route::get('/grafica_voltaje_corriente', 'ConsumoElectricoController@grafica_voltaje_corriente');
+Route::get('/gauge', 'ConsumoElectricoController@gauge');
