@@ -32,6 +32,8 @@ function datosGenerales(){
 			$('#seccion').text(data.seccion);
 			$('#periodo').text(data.periodo);
 			$('#costo').text('$ ' + data.costo);
+
+			gauge();
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest);
@@ -53,13 +55,21 @@ function gauge(){
 			var grados;
 
 			if(porcentaje>0 && porcentaje<=20){
-				grados = 0;
-			}else if(porcentaje>21 && porcentaje<=55){
-				grados = 180;
+				grados = (porcentaje * 36) / 20;
+			}else if(porcentaje>21 && porcentaje<=40){
+				grados = (porcentaje * 72) / 40;
+			}else if(porcentaje> 41 && porcentaje <= 60){
+				grados = (porcentaje * 108) / 60;
+			}else if(porcentaje> 61 && porcentaje <= 80) {
+				grados = (porcentaje * 144) / 80;
+			}else if(porcentaje> 81 && porcentaje <= 100){
+				grados = (porcentaje * 180) / 100;
 			}
 
-			$('.gauge-center').text(potencia);
-			$('.needle').prop('style', 'transform: rotate()');
+			console.log('potencia ' + potencia + ', grados ' + grados);
+
+			$('.gauge-center').append('<label>' + potencia + '</label>');
+			$('.needle').prop('style', 'transform: rotate('+grados+'deg)');
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest);

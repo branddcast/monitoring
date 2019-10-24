@@ -29,7 +29,7 @@ class MonitoreoController extends Controller
 
         $costos = ConsumoElectrico::where([
                 ['encendido', '>=', Carbon::now()->subDays(15)],
-                ['encendido', '<=', Carbon::now()]
+                ['encendido', '<', Carbon::now()->addDays(1)]
             ])->get();
 
         $costo = 0;

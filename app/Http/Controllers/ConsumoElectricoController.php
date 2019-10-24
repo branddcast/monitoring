@@ -118,7 +118,7 @@ class ConsumoElectricoController extends Controller
 
         $datos = ConsumoElectrico::select('id', 'potencia')->where([
             ['encendido', '>=', Carbon::now()->subDays(15)],
-            ['encendido', '<=', Carbon::now()]
+            ['encendido', '<=', Carbon::now()->addDays(1)]
         ])->get();
 
         foreach ($datos as $potencias) {
