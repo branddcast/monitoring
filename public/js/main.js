@@ -27,7 +27,7 @@ function datosGenerales(){
 		    _token: token
 		},
 		success: function(data){
-			//console.log(data.apellidos_titular);
+			console.log(data);
 			$('#nombre_titular').text(data.nombre_titular + ' ' + data.apellidos_titular);
 			$('#seccion').text(data.seccion);
 			$('#periodo').text(data.periodo);
