@@ -111,4 +111,20 @@ class ConsumoElectricoController extends Controller
 
     	return response()->json($response);
     }
+
+    public function gauge(){
+        $response = array();
+        $potencia = 0;
+
+        $datos = ConsumoElectrico::select('id', 'potencia')->where([
+            ['encendido', '>=', Carbon::now()->subDays(15)],
+            ['encendido', '<=', Carbon::now()]
+        ])->get();
+
+        foreach ($datos as $potencias) {
+            $potencia += $potencias->potencia;
+        }
+
+        return response()->json(['potencia' => (float) bcdiv($potencia, 1, 2)]);
+    }
 }
