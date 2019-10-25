@@ -94,8 +94,13 @@
   bottom: 0;
   color: #fff;
 }
+.gauge-center label{
+  position: relative;
+  left: -25%;
+}
+
 .gauge-center::before {
-  content: '128';
+  content: '';
   font-size: 1.5em;
   width: 100%;
   padding: 15px 0 0px 0;
@@ -104,7 +109,7 @@
   -webkit-font-smoothing: antialiased;
 }
 .gauge-center::after {
-  content: 'units';
+  content: '';
   width: 100%;
   float: left;
   opacitY: .6;
