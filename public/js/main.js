@@ -3,6 +3,7 @@ var validate_auth_user = null;
 $(document).ready(function(){
 
 	$('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="popover"]').popover();
 	potencias();
 	voltaje_corriente();
 	datosGenerales();
@@ -104,17 +105,36 @@ function bitacora(){
 
 			$('#bitacora tbody').empty();
 
-			for (var i = 0; i < data.length; i++) {
-				$('#bitacora').append(
-					'<tr>' +
-						'<th class="scope">' + (i+1) + '</th>' +
-						'<td>' + data[i].usuario + '</td>' +
-						'<td>' + data[i].proceso + '</td>' +
-						'<td>' + data[i].intentos + '</td>' +
-						'<td>' + data[i].estado + '</td>' +
-						'<td>' + data[i].fecha + '</td>' +
-					'</tr>'
-				);
+			if($(window).width() > 400){
+
+				for (var i = 0; i < data.length; i++) {
+					$('#bitacora').append(
+						'<tr>' +
+							'<th class="scope">' + (i+1) + '</th>' +
+							'<td>' + data[i].usuario + '</td>' +
+							'<td>' + data[i].proceso + '</td>' +
+							//'<td>' + data[i].intentos + '</td>' +
+							'<td>' + data[i].estado + '</td>' +
+							'<td>' + data[i].fecha + '</td>' +
+						'</tr>'
+					);
+				}
+			}else{
+				for (var i = 0; i < data.length; i++) {
+					var proceso = (data[i].proceso == 'Inicio de Sesión')? '<i class="fas fa-lock-open fa-lg" onclick="javascript:alert(\'Inicio de Sesión\')"></i>': '<i class="fas fa-question fa-lg" onclick="javascript:alert(\'Proceso Desconocido\')"></i>';
+					var estado = (data[i].estado == 'Sesión Permitida')? '<i class="fas fa-check fa-lg text-success" onclick="javascript:alert(\'Sesión Permitida\')"></i>': '<i class="fas fa-times fa-lg text-danger" onclick="javascript:alert(\'Sesión Bloqueada\')"></i>';
+					
+					$('#bitacora').append(
+						'<tr>' +
+							'<th class="scope">' + (i+1) + '</th>' +
+							'<td>' + data[i].usuario + '</td>' +
+							'<td>' + proceso + '</td>' +
+							//'<td>' + data[i].intentos + '</td>' +
+							'<td>' + estado + '</td>' +
+							'<td> <i class="far fa-clock fa-lg" onclick="javascript:alert(\''+data[i].fecha+'\')"></i></td>' +
+						'</tr>'
+					);
+				}
 			}
 
 		},
@@ -141,18 +161,48 @@ function usuarios_registrados(){
 
 			$('#usuarios_registrados tbody').empty();
 
-			for (var i = 0; i < data.length; i++) {
+			if($(window).width() > 400){
+
+				for (var i = 0; i < data.length; i++) {
+					$('#usuarios_registrados').append(
+						'<tr>' +
+							'<th class="scope">' + (i+1) + '</th>' +
+							'<td>' + data[i].nombre + '</td>' +
+							'<td>' + data[i].email + '</td>' +
+							'<td>' + data[i].rol + '</td>' +
+							'<td>' + data[i].huella + '</td>' +
+							'<td>' + data[i].fecha + '</td>' +
+							'<td>' + data[i].acciones + '</td>' +
+						'</tr>'
+					);
+				}
+			}else{
+				for (var i = 0; i < data.length; i++) {
+					var email = '<i class="fas fa-at fa-lg" onclick="javascript:alert(\''+data[i].email+'\')"></i>';
+					var rol = '<i class="fas fa-user-tag fa-lg" onclick="javascript:alert(\''+data[i].rol+'\')"></i>';
+					var fecha = '<i class="fas fa-at fa-calendar-alt fa-lg" onclick="javascript:alert(\''+data[i].fecha+'\')"></i>';
+					var huella;
+
+					if(data[i].huella == '<span class="text-success">Huella Registrada</span>'){
+						huella = '<i class="fas fa-at fa-check fa-lg text-success" onclick="javascript:alert(\'Huella Registrada\')"></i>';
+					}else{
+						huella = '<i class="fas fa-at fa-times fa-lg text-danger" onclick="javascript:alert(\'Sin Huella\')"></i>';
+					}
+
+				$('#usuarios_registrados').find("th:eq(5)").html("Reg.");
+
 				$('#usuarios_registrados').append(
 					'<tr>' +
 						'<th class="scope">' + (i+1) + '</th>' +
-						'<td>' + data[i].nombre + '</td>' +
-						'<td>' + data[i].email + '</td>' +
-						'<td>' + data[i].rol + '</td>' +
-						'<td>' + data[i].huella + '</td>' +
-						'<td>' + data[i].fecha + '</td>' +
+						'<td style="font-size: 11pt;">' + data[i].nombre + '</td>' +
+						'<td>' + email + '</td>' +
+						'<td>' + rol + '</td>' +
+						'<td>' + huella + '</td>' +
+						'<td>' + fecha + '</td>' +
 						'<td>' + data[i].acciones + '</td>' +
 					'</tr>'
 				);
+			}
 			}
 
 		},

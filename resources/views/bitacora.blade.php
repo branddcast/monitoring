@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container bg-white monitoring-border-top w-50">
+<div class="container bg-white monitoring-border-top bitacora-container">
 	<div class="row">
 		<div class="col-md-12 text-center monitoring-head-text" style="background: rgba(68, 102, 187, .05)">
 			<b>Bitácora</b>
@@ -48,7 +48,7 @@
     						<th scope="col">#</th>
     						<th>Usuario</th>
     						<th>Proceso</th>
-    						<th>Intentos Fallidos</th>
+    						<!--<th>Intentos Fallidos</th>-->
     						<th>Estado</th>
     						<th>Fecha</th>
     					</tr>
@@ -105,7 +105,7 @@
           <input type="hidden" id="hidden_id_input" value="0">
           <input type="hidden" id="hidden_auth_input" value="0">
       		<div class="row mt-4">
-      			<div class="col-md-6">
+      			<div class="col-md-6 mb-2">
       				<input id="user_name" class="form-control form-control-sm" type="text" placeholder="Nombre">
       			</div>
       			<div class="col-md-6">
@@ -113,7 +113,7 @@
       			</div>
       		</div>
       		<div class="row mt-2">
-      			<div class="col-md-6">
+      			<div class="col-md-6 mb-2">
       				<input id="user_password" class="form-control form-control-sm" type="password" placeholder="Contraseña">
       			</div>
       			<div class="col-md-6">
